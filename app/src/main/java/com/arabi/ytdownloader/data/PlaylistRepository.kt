@@ -30,7 +30,6 @@ class PlaylistRepository {
                 addOption("--no-warnings")
             }
             
-            // ✅ استخدام execute بدون callback (لأننا لا نريد تحديث التقدم)
             val response = youtubeDL.execute(request)
             val parsed = gson.fromJson(response.out, YtDlpDumpJson::class.java)
 
@@ -79,13 +78,13 @@ class PlaylistRepository {
                 )
             }
 
-            // ✅ استخدام execute مع callback للتقدم
-            val response = youtubeDL.execute(request) { progress, _, line ->
-                val parsed = parseProgressLine(line)
-                onProgress(parsed?.first ?: progress, parsed?.second ?: "")
+            // ✅ التصحيح: استخدام (Float, Long) -> Unit فقط
+            val response = youtubeDL.execute(request) { progress, eta ->
+                // progress: Float, eta: Long (الوقت المتبقي بالثواني)
+                val etaString = if (eta > 0) "${eta}s" else "Calculating..."
+                onProgress(progress, etaString)
             }
             
-            // إرجاع الملف الذي تم تحميله
             val outputFile = File(outputDir, response.out)
             if (outputFile.exists()) {
                 Result.success(outputFile)
@@ -98,9 +97,8 @@ class PlaylistRepository {
     }
 
     fun cancel(processId: String) {
-        // ✅ في الإصدار 0.12.+، لا يوجد destroyProcessById
-        // يمكن استخدام طريقة أخرى لإلغاء التحميل
-        // يتم إلغاء التحميل عبر إلغاء coroutine
+        // في الإصدار 0.12.+، لا يوجد destroyProcessById
+        // يمكن إلغاء التحميل عبر إلغاء coroutine
     }
 
     private fun parseProgressLine(line: String): Pair<Float, String>? {
