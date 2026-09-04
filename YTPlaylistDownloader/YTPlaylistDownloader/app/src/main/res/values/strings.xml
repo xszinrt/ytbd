@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">محمّل يوتيوب</string>
+    <string name="hint_youtube_url">رابط فيديو أو قائمة تشغيل يوتيوب</string>
+    <string name="action_fetch_info">جلب المعلومات</string>
+    <string name="action_download_all">تحميل الكل</string>
+    <string name="action_download_selected">تحميل المحدد</string>
+    <string name="label_select_all">تحديد الكل</string>
+    <string name="label_quality">الجودة</string>
+    <string name="error_empty_url">الرجاء إدخال رابط</string>
+    <string name="error_not_youtube">هذا الرابط ليس من يوتيوب</string>
+    <string name="notification_downloading_title">جارٍ التحميل</string>
+    <string name="notification_channel_name">تحميل الفيديوهات</string>
+    <string name="already_queued">تم إضافته سابقًا</string>
+</resources>
